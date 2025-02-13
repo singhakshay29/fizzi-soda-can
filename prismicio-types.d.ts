@@ -130,7 +130,13 @@ export interface HeroSliceDefaultPrimary {
    * - **API ID Path**: hero.default.primary.button_link
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  button_link: prismic.LinkField;
+  button_link: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >;
 
   /**
    * Cans Image field in *Hero → Default → Primary*
@@ -190,6 +196,63 @@ type HeroSliceVariation = HeroSliceDefault;
  */
 export type HeroSlice = prismic.SharedSlice<"hero", HeroSliceVariation>;
 
+/**
+ * Primary content in *SkyDive → Default → Primary*
+ */
+export interface SkyDiveSliceDefaultPrimary {
+  /**
+   * Sentence field in *SkyDive → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: sky_dive.default.primary.sentence
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  sentence: prismic.KeyTextField;
+
+  /**
+   * Flavor field in *SkyDive → Default → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: sky_dive.default.primary.flavor
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  flavor: prismic.SelectField<
+    "lemonLine" | "grape" | "blackCherry" | "watermelon" | "strawberryLemonade"
+  >;
+}
+
+/**
+ * Default variation for SkyDive Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type SkyDiveSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<SkyDiveSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *SkyDive*
+ */
+type SkyDiveSliceVariation = SkyDiveSliceDefault;
+
+/**
+ * SkyDive Shared Slice
+ *
+ * - **API ID**: `sky_dive`
+ * - **Description**: SkyDive
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type SkyDiveSlice = prismic.SharedSlice<
+  "sky_dive",
+  SkyDiveSliceVariation
+>;
+
 declare module "@prismicio/client" {
   interface CreateClient {
     (
@@ -219,6 +282,10 @@ declare module "@prismicio/client" {
       HeroSliceDefaultPrimary,
       HeroSliceVariation,
       HeroSliceDefault,
+      SkyDiveSlice,
+      SkyDiveSliceDefaultPrimary,
+      SkyDiveSliceVariation,
+      SkyDiveSliceDefault,
     };
   }
 }
